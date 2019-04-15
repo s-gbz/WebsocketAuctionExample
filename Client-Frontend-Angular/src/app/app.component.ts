@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from './http.service';
+import * as Stomp from 'stompjs';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     const websocket = this.httpService.connectWebsocket();
-    websocket.onopen = ((event) => {console.log(event);
+    const client = Stomp.over(websocket);
+    client.connect({}, function(frame) {
+    client.subscribe('/update-items', function (message) {
+        this.showMessage(JSON.parse(message.body));
     });
+    //client.send("/update-items", {}, "My first messages <3");
+});
   }
 }
