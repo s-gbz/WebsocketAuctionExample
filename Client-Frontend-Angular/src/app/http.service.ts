@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  private webSocketUrl = "ws://localhost:8080/socket-registry";
   private auctionChannelUrl = "update-items";
 
   constructor(private http: HttpService) { }
 
   getWebsocket(): WebSocket {
-    return new WebSocket(this.webSocketUrl);
+    return new WebSocket(environment.webSocketUrl);
   }
 }

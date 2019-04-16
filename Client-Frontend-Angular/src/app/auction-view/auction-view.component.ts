@@ -34,9 +34,19 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
 
       this.client.connect({}, () => {
         this.client.subscribe("/update-items", (message) => {
-          this.auctionItems.push(JSON.parse(message.body));
+          this.insertOrUpdateItem(JSON.parse(message.body));
         });
       });
+    }
+  }
+
+  insertOrUpdateItem(item: AuctionItem) {
+    const searchResultItem = this.auctionItems.find(searchedItem => searchedItem.id === item.id);
+
+    if (searchResultItem) {
+      searchResultItem.price = item.price;
+    } else {
+      this.auctionItems.push(item);
     }
   }
 
@@ -47,9 +57,17 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  sendBid() {
+  increaseBid(index: number, item: AuctionItem) {
+    this.auctionItems[index].price += 5;
+  }
+
+  decreaseBid(index: number, item: AuctionItem) {
+    this.auctionItems[index].price -= 5;
+  }
+
+  sendBid(item: AuctionItem) {
     if (this.client) {
-      const item: AuctionItem = { id: 1, price: 10, name: "Book", description: "A great book to read" };
+
       this.client.send("/update-items", {}, JSON.stringify(item));
     } else {
       console.log("Unable to send bid - Stomp Client undefined or null.");

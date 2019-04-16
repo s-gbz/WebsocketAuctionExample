@@ -1,7 +1,14 @@
-
-
-<p *ngFor="let item of auctionItems">Name: {{item.name}}<br>
+<div *ngFor="let item of auctionItems; let i = index" style="margin-bottom: 5%;">Name: {{item.name}}<br>
   Price: {{item.price}}<br>
-  Description: {{item.description}}<br></p>
+  Description: {{item.description}}
 
-<button (click)="sendBid()">Bid!</button>
+  <!-- You are top bidder -->
+  <!-- You have been overbidden -->
+
+  <p>New price: {{item.price}}</p>
+  <button (click)="increaseBid(i, item)">+ 5€</button>
+  <button (click)="decreaseBid(i, item)">- 5€</button>
+  <button (click)="sendBid(item)">Bid!</button>
+
+  <br>
+</div>
