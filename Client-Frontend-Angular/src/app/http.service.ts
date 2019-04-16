@@ -10,7 +10,7 @@ export class HttpService {
 
   constructor(private http: HttpService) { }
 
-  connectWebsocket(): WebSocket {
+  getWebsocket(): WebSocket {
     return new WebSocket(this.webSocketUrl);
   }
 }
