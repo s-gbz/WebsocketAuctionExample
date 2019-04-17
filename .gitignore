@@ -2,3 +2,5 @@
 Server-Backend-Spring/\.idea/workspace\.xml
 
 *.xml
+
+Server-Backend-Spring/src/main/resources/static/

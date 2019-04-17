@@ -10,6 +10,7 @@ Zuständigkeiten Kommunikation ist
 - Erstelle Objektinterface
 - Wandle das Objekt beim Versenden in einen JSON String mittels `JSON.stringify(item)`
 - Wandle den JSON String beim Empfang in ein AuctionItems mittels `JSON.parse(message.body)`
+  
 - 
 
 - Warum tut man?

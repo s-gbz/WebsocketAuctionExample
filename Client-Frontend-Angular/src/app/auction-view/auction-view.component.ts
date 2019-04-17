@@ -13,14 +13,17 @@ import * as Stomp from 'stompjs';
 })
 export class AuctionViewComponent implements OnInit, OnDestroy {
 
-  auctionItems: AuctionItem [] = [{ id: 1, price: 10, name: "Book", description: "A great book to read" }];
+  auctionItems: AuctionItem [] = [];
   websocket: WebSocket;
   client: Stomp.Client;
+  wsText = "";
+  clientConnected = "false";
 
   constructor(private httpService: HttpService) {}
 
   ngOnInit() {
     this.openWebsocketConnection();
+    this.getInitialAuctionItems();
   }
 
   ngOnDestroy() {
@@ -28,16 +31,20 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
   }
 
   openWebsocketConnection() {
-    if (!this.client) {
-      this.websocket = this.httpService.getWebsocket();
-      this.client = Stomp.over(this.websocket);
+    this.websocket = this.httpService.getWebsocket();
 
-      this.client.connect({}, () => {
+    this.client = Stomp.over(this.websocket);
+
+    this.client.connect({}, () => {
         this.client.subscribe("/update-items", (message) => {
           this.insertOrUpdateItem(JSON.parse(message.body));
+          this.wsText = JSON.parse(message.body).price;
         });
       });
-    }
+  }
+
+  getInitialAuctionItems() {
+    this.httpService.getInitialAuctionItems().subscribe((items) => { this.auctionItems = items; });
   }
 
   insertOrUpdateItem(item: AuctionItem) {
@@ -67,7 +74,6 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
 
   sendBid(item: AuctionItem) {
     if (this.client) {
-
       this.client.send("/update-items", {}, JSON.stringify(item));
     } else {
       console.log("Unable to send bid - Stomp Client undefined or null.");
