@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@import './assets/bootstrap-cosmo.css';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.content-body {
+    margin: 2% 20%;
+}
+
+.center {
+    text-align: center;
+}
+
+.fill-block {
+    height:100%; width: 100%;
+}

@@ -13,6 +13,7 @@ import * as Stomp from 'stompjs';
 })
 export class AuctionViewComponent implements OnInit, OnDestroy {
 
+  debuging = false;
   auctionItems: AuctionItem [] = [];
   websocket: WebSocket;
   client: Stomp.Client;

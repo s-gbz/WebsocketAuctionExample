@@ -1,17 +1,27 @@
-<div *ngFor="let item of auctionItems; let i = index" style="margin-bottom: 5%;">Name: {{item.name}}<br>
-  Price: {{item.price}}<br>
-  Description: {{item.description}}
+<ng-container *ngIf="debuging">
+  <p>Websocket update: {{ wsText }}</p>
+  <p>clientConnected: {{ clientConnected }}</p>
+</ng-container>
 
-  <!-- You are top bidder -->
-  <!-- You have been overbidden -->
+<ng-container *ngFor="let item of auctionItems; let i = index">
+  <!-- Auction item card template -->
+  <div class="card border-secondary mb-3 ">
+    <div class="card-header">
+      Ende in 10s
+    </div>
 
-  <p>New price: {{item.price}}</p>
-  <button (click)="increaseBid(i, item)">+ 5€</button>
-  <button (click)="decreaseBid(i, item)">- 5€</button>
-  <button (click)="sendBid(item)">Bid!</button>
+    <div class="card-body">
+      <h4 class="card-title">{{ item.name }}</h4>
+      <br />
+      <p class="">Beschreibung: {{ item.description }}</p>
+      <br />
+      <app-item-bidding-actions class="fill-block"></app-item-bidding-actions>
+    </div>
+    <!-- End of card body -->
+  </div>
+  <!-- End of item display container -->
+</ng-container>
 
-  <br>
-</div>
-<br>
-<p>Websocket update: {{wsText}}</p>
-<p>clientConnected: {{clientConnected}}</p>
+
+<!-- You are top bidder -->
+<!-- You have been overbidden -->

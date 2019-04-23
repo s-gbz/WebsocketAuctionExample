@@ -6,11 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuctionViewComponent } from './auction-view/auction-view.component';
+import { ItemBiddingActionsComponent } from './item-bidding-actions/item-bidding-actions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuctionViewComponent
+    AuctionViewComponent,
+    ItemBiddingActionsComponent
   ],
   imports: [
     BrowserModule,
