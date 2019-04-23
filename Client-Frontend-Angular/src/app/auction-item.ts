@@ -3,6 +3,7 @@ export interface AuctionItem {
     currentBid: number;
     topBid: number;
     newBid: number;
+    timeLeft: number;
     name: string;
     description: string;
 }

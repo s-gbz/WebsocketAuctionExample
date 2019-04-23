@@ -13,6 +13,7 @@ public class AuctionItem {
     private int currentBid;
     private int topBid;
     private int newBid;
+    private long timeLeft;
     private String name;
     private String description;
 
@@ -46,6 +47,14 @@ public class AuctionItem {
 
     public void setNewBid(int newBid) {
         this.newBid = newBid;
+    }
+
+    public long getTimeLeft() {
+        return timeLeft;
+    }
+
+    public void setTimeLeft(long timeLeft) {
+        this.timeLeft = timeLeft;
     }
 
     public String getName() {

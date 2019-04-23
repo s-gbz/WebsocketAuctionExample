@@ -5,8 +5,8 @@
 <ng-container *ngFor="let item of auctionItems; let i = index">
   <!-- Auction item card template -->
   <div class="card border-secondary mb-3">
-    <div class="card-header center">
-      Ende in 10s
+    <div class="card-header center" *ngIf="time !== undefined">
+      <countdown [config]="{leftTime: item.timeLeft}">$!h!:$!m!:$!s!</countdown>
     </div>
 
     <div class="card-body">
@@ -48,14 +48,14 @@
           <!-- Increase/ Decrease bid buttons-->
           <div class="col">
             <div class="row">
-              <button class="col-12" (click)="increaseBid(i, item)">+</button>
-              <button class="col-12"(click)="decreaseBid(i, item)">-</button>
+              <button class="col-12 btn btn-outline-secondary" (click)="increaseBid(i, item)">+</button>
+              <button class="col-12 btn btn-outline-secondary" (click)="decreaseBid(i, item)">-</button>
             </div>
           </div>
 
           <!-- Bid button -->
           <div class="col">
-            <button class="btn-secondary fill-block" (click)="sendBid(item)">Bid!</button>
+            <button class="btn-secondary fill-block" (click)="sendBid(i, item)">Bid!</button>
           </div>
         </div>
       </div> <!-- End of bidding action container -->

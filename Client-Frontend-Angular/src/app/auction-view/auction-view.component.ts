@@ -1,5 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
+import { timer, interval, Observable } from 'rxjs'
+import { map, take, startWith } from 'rxjs/operators'
+
+
 import { HttpService } from '../http.service';
 import { AuctionItem } from '../auction-item';
 
@@ -14,12 +18,13 @@ import * as Stomp from 'stompjs';
 export class AuctionViewComponent implements OnInit, OnDestroy {
 
   debuging = false;
-  auctionItems: AuctionItem [] = [];
+  auctionItems: AuctionItem[] = [];
   websocket: WebSocket;
   client: Stomp.Client;
   clientConnected = "false";
+  time;
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService) { }
 
   ngOnInit() {
     this.openWebsocketConnection();
@@ -36,14 +41,18 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
     this.client = Stomp.over(this.websocket);
 
     this.client.connect({}, () => {
-        this.client.subscribe("/update-items", (message) => {
-          this.insertOrUpdateItem(JSON.parse(message.body));
-        });
+      this.client.subscribe("/update-items", (message) => {
+        this.insertOrUpdateItem(JSON.parse(message.body));
       });
+    });
   }
 
   getInitialAuctionItems() {
-    this.httpService.getInitialAuctionItems().subscribe((items) => { this.auctionItems = items; });
+    this.httpService.getInitialAuctionItems().subscribe((items) => {
+      this.auctionItems = items;
+
+      this.auctionItems.forEach(item => this.initCountdown(item));
+    });
   }
 
   insertOrUpdateItem(item: AuctionItem) {
@@ -63,6 +72,20 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
     }
   }
 
+  initCountdown(item: AuctionItem) {
+    var counter = item.timeLeft;
+
+    var interval = setInterval(() => {
+      this.time = counter;
+      counter--;
+
+      if (counter < 0) {
+
+        clearInterval(interval);
+      };
+    }, 1000);
+  }
+
   increaseBid(index: number, item: AuctionItem) {
     this.auctionItems[index].newBid += 5;
   }
@@ -72,15 +95,14 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
     newBid -= 5;
 
     if (newBid >= this.auctionItems[index].topBid) {
-      this.auctionItems[index].newBid -= newBid;
+      this.auctionItems[index].newBid = newBid;
     }
   }
 
-  sendBid(index: number, item: AuctionItem) {
+  sendBid(index: number) {
     if (this.client) {
-      item.currentBid = item.newBid;
-      this.auctionItems[index].currentBid = item.newBid;
-      this.client.send("/update-items", {}, JSON.stringify(item));
+      this.auctionItems[index].currentBid = this.auctionItems[index].newBid;
+      this.client.send("/update-items", {}, JSON.stringify(this.auctionItems[index]));
     } else {
       console.log("Unable to send bid - Stomp Client undefined or null.");
     }
