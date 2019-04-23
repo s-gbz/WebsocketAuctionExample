@@ -1,15 +1,17 @@
-.auction-item {
-    margin: 1% 2%;
+.card-title {
+    font-weight: bold;
+}
+
+.card {
+    margin: 10% 0;
 }
 
 .item-attribute-container {
-    display: table; /* Make the container element behave like a table */
+    display: table;
+    /* Make the container element behave like a table */
 }
 
 .item-attribute-col {
-    display: table-cell; /* Make elements inside the container behave like table cells */
-}
-
-.auction-item-button {
-    //margin: 5px 5px;
+    display: table-cell;
+    /* Make elements inside the container behave like table cells */
 }

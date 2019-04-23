@@ -1,6 +1,8 @@
 export interface AuctionItem {
     id: number;
-    price: number;
+    currentBid: number;
+    topBid: number;
+    newBid: number;
     name: string;
     description: string;
 }

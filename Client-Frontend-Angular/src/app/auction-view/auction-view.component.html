@@ -1,27 +1,65 @@
 <ng-container *ngIf="debuging">
-  <p>Websocket update: {{ wsText }}</p>
   <p>clientConnected: {{ clientConnected }}</p>
 </ng-container>
 
 <ng-container *ngFor="let item of auctionItems; let i = index">
   <!-- Auction item card template -->
-  <div class="card border-secondary mb-3 ">
-    <div class="card-header">
+  <div class="card border-secondary mb-3">
+    <div class="card-header center">
       Ende in 10s
     </div>
 
     <div class="card-body">
       <h4 class="card-title">{{ item.name }}</h4>
       <br />
-      <p class="">Beschreibung: {{ item.description }}</p>
+      <p class="">
+        Beschreibung: {{ item.description }}
+      </p>
       <br />
-      <app-item-bidding-actions class="fill-block"></app-item-bidding-actions>
-    </div>
-    <!-- End of card body -->
-  </div>
-  <!-- End of item display container -->
-</ng-container>
+      <p class="bg-success text-white" style="width: 100%; text-align: center;">
+        Gegenstand "{{ item.name }}"" ersteigert!</p>
+      <br />
+      <p class="bg-danger text-white" style="width: 100%; text-align: center;">
+        Gegenstand "{{ item.name }}" leider verloren.</p>
+      <br />
+      <p class="bg-primary text-white" style="width: 100%; text-align: center;">
+        Du bist Höchstbieter
+      </p>
+      <br />
+      <p class="bg-warning text-white" style="width: 100%; text-align: center;">
+        Du wurdest überboten
+      </p>
+      <br />
 
+      <!-- Bidding action container -->
+      <div class="container">
+        <!-- Price display -->
+        <div class="row">
+          <div class="col fill-block">
+            Aktuell: {{ item.newBid }}€
+          </div>
+          <div class="col fill-block">
+            Höchste: {{ item.topBid }}€
+          </div>
+        </div>
 
-<!-- You are top bidder -->
-<!-- You have been overbidden -->
+        <!-- Action buttons row -->
+        <div class="row">
+          <!-- Increase/ Decrease bid buttons-->
+          <div class="col">
+            <div class="row">
+              <button class="col-12" (click)="increaseBid(i, item)">+</button>
+              <button class="col-12"(click)="decreaseBid(i, item)">-</button>
+            </div>
+          </div>
+
+          <!-- Bid button -->
+          <div class="col">
+            <button class="btn-secondary fill-block" (click)="sendBid(item)">Bid!</button>
+          </div>
+        </div>
+      </div> <!-- End of bidding action container -->
+    </div> <!-- End of card body -->
+
+  </div> <!-- End of auction item card -->
+</ng-container> <!-- End of item display container -->

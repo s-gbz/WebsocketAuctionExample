@@ -10,7 +10,9 @@ public class AuctionItem {
     @Id
     @GeneratedValue
     private long id;
-    private int price;
+    private int currentBid;
+    private int topBid;
+    private int newBid;
     private String name;
     private String description;
 
@@ -22,12 +24,28 @@ public class AuctionItem {
         this.id = id;
     }
 
-    public int getPrice() {
-        return price;
+    public int getCurrentBid() {
+        return currentBid;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setCurrentBid(int currentBid) {
+        this.currentBid = currentBid;
+    }
+
+    public int getTopBid() {
+        return topBid;
+    }
+
+    public void setTopBid(int topBid) {
+        this.topBid = topBid;
+    }
+
+    public int getNewBid() {
+        return newBid;
+    }
+
+    public void setNewBid(int newBid) {
+        this.newBid = newBid;
     }
 
     public String getName() {

@@ -17,7 +17,6 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
   auctionItems: AuctionItem [] = [];
   websocket: WebSocket;
   client: Stomp.Client;
-  wsText = "";
   clientConnected = "false";
 
   constructor(private httpService: HttpService) {}
@@ -39,7 +38,6 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
     this.client.connect({}, () => {
         this.client.subscribe("/update-items", (message) => {
           this.insertOrUpdateItem(JSON.parse(message.body));
-          this.wsText = JSON.parse(message.body).price;
         });
       });
   }
@@ -52,7 +50,7 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
     const searchResultItem = this.auctionItems.find(searchedItem => searchedItem.id === item.id);
 
     if (searchResultItem) {
-      searchResultItem.price = item.price;
+      searchResultItem.topBid = item.currentBid;
     } else {
       this.auctionItems.push(item);
     }
@@ -66,15 +64,22 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
   }
 
   increaseBid(index: number, item: AuctionItem) {
-    this.auctionItems[index].price += 5;
+    this.auctionItems[index].newBid += 5;
   }
 
   decreaseBid(index: number, item: AuctionItem) {
-    this.auctionItems[index].price -= 5;
+    let newBid = this.auctionItems[index].newBid;
+    newBid -= 5;
+
+    if (newBid >= this.auctionItems[index].topBid) {
+      this.auctionItems[index].newBid -= newBid;
+    }
   }
 
-  sendBid(item: AuctionItem) {
+  sendBid(index: number, item: AuctionItem) {
     if (this.client) {
+      item.currentBid = item.newBid;
+      this.auctionItems[index].currentBid = item.newBid;
       this.client.send("/update-items", {}, JSON.stringify(item));
     } else {
       console.log("Unable to send bid - Stomp Client undefined or null.");
