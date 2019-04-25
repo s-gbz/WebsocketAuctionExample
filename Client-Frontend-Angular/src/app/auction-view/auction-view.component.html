@@ -5,7 +5,7 @@
 <ng-container *ngFor="let item of auctionItems; let i = index">
   <!-- Auction item card template -->
   <div class="card border-secondary mb-3">
-    <div class="card-header center" *ngIf="time !== undefined">
+    <div class="card-header center" *ngIf="item.timeLeft !== undefined">
       <countdown [config]="{leftTime: item.timeLeft}">$!h!:$!m!:$!s!</countdown>
     </div>
 
@@ -16,49 +16,59 @@
         Beschreibung: {{ item.description }}
       </p>
       <br />
-      <p class="bg-success text-white" style="width: 100%; text-align: center;">
-        Gegenstand "{{ item.name }}"" ersteigert!</p>
-      <br />
-      <p class="bg-danger text-white" style="width: 100%; text-align: center;">
-        Gegenstand "{{ item.name }}" leider verloren.</p>
-      <br />
-      <p class="bg-primary text-white" style="width: 100%; text-align: center;">
-        Du bist Höchstbieter
-      </p>
-      <br />
-      <p class="bg-warning text-white" style="width: 100%; text-align: center;">
-        Du wurdest überboten
-      </p>
-      <br />
 
-      <!-- Bidding action container -->
-      <div class="container">
-        <!-- Price display -->
-        <div class="row">
-          <div class="col fill-block">
-            Aktuell: {{ item.newBid }}€
-          </div>
-          <div class="col fill-block">
-            Höchste: {{ item.topBid }}€
-          </div>
-        </div>
+      <ng-container *ngIf="item.timeLeft === 0">
+        <p class="bg-success text-white" style="width: 100%; text-align: center;"
+          *ngIf="item.topBid === item.currentBid">
+          Gegenstand "{{ item.name }}" ersteigert!</p>
+        <br />
+        <p class="bg-danger text-white" style="width: 100%; text-align: center;"
+          *ngIf="item.topBid !== item.currentBid">
+          Auktion für "{{ item.name }}" leider vorbei.</p>
+        <br />
+      </ng-container>
 
-        <!-- Action buttons row -->
-        <div class="row">
-          <!-- Increase/ Decrease bid buttons-->
-          <div class="col">
-            <div class="row">
-              <button class="col-12 btn btn-outline-secondary" (click)="increaseBid(i, item)">+</button>
-              <button class="col-12 btn btn-outline-secondary" (click)="decreaseBid(i, item)">-</button>
+      <ng-container *ngIf="item.timeLeft !== 0">
+        <p class="bg-primary text-white" style="width: 100%; text-align: center;"
+          *ngIf="item.topBid === item.currentBid">
+          Du bist Höchstbieter
+        </p>
+        <br />
+        <p class="bg-warning text-white" style="width: 100%; text-align: center;"
+          *ngIf="item.currentBid !== 0 && item.topBid !== item.currentBid">
+          Du wurdest überboten
+        </p>
+        <br />
+
+        <!-- Bidding action container -->
+        <div class="container">
+          <!-- Price display -->
+          <div class="row">
+            <div class="col fill-block">
+              Aktuell: {{ item.newBid }}€
+            </div>
+            <div class="col fill-block">
+              Höchste: {{ item.topBid }}€
             </div>
           </div>
 
-          <!-- Bid button -->
-          <div class="col">
-            <button class="btn-secondary fill-block" (click)="sendBid(i, item)">Bid!</button>
+          <!-- Action buttons row -->
+          <div class="row">
+            <!-- Increase/ Decrease bid buttons-->
+            <div class="col">
+              <div class="row">
+                <button class="col-12 btn btn-outline-secondary" (click)="increaseBid(i, item)">+</button>
+                <button class="col-12 btn btn-outline-secondary" (click)="decreaseBid(i, item)">-</button>
+              </div>
+            </div>
+
+            <!-- Bid button -->
+            <div class="col">
+              <button class="btn-secondary fill-block" (click)="sendBid(i, item)">Bid!</button>
+            </div>
           </div>
-        </div>
-      </div> <!-- End of bidding action container -->
+        </div> <!-- End of bidding action container -->
+      </ng-container> <!-- End of ngIf="item.timeLeft !== 0" -->
     </div> <!-- End of card body -->
 
   </div> <!-- End of auction item card -->

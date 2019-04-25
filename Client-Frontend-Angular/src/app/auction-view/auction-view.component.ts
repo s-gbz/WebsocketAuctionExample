@@ -1,9 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { timer, interval, Observable } from 'rxjs'
-import { map, take, startWith } from 'rxjs/operators'
-
-
 import { HttpService } from '../http.service';
 import { AuctionItem } from '../auction-item';
 
@@ -22,7 +18,6 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
   websocket: WebSocket;
   client: Stomp.Client;
   clientConnected = "false";
-  time;
 
   constructor(private httpService: HttpService) { }
 
@@ -59,7 +54,9 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
     const searchResultItem = this.auctionItems.find(searchedItem => searchedItem.id === item.id);
 
     if (searchResultItem) {
-      searchResultItem.topBid = item.currentBid;
+      searchResultItem.topBid = item.topBid;
+      searchResultItem.newBid = item.topBid;
+      searchResultItem.timeLeft = item.timeLeft;
     } else {
       this.auctionItems.push(item);
     }
@@ -73,14 +70,12 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
   }
 
   initCountdown(item: AuctionItem) {
-    var counter = item.timeLeft;
+    let interval = setInterval(() => {
+      item.timeLeft--;
 
-    var interval = setInterval(() => {
-      this.time = counter;
-      counter--;
-
-      if (counter < 0) {
-
+      if (item.timeLeft < 0) {
+        item.timeLeft = 0;
+        this.endAuction(item);
         clearInterval(interval);
       };
     }, 1000);
@@ -101,8 +96,27 @@ export class AuctionViewComponent implements OnInit, OnDestroy {
 
   sendBid(index: number) {
     if (this.client) {
-      this.auctionItems[index].currentBid = this.auctionItems[index].newBid;
-      this.client.send("/update-items", {}, JSON.stringify(this.auctionItems[index]));
+      if (this.auctionItems[index].newBid > this.auctionItems[index].topBid) {
+        this.auctionItems[index].currentBid = this.auctionItems[index].newBid;
+        this.auctionItems[index].topBid = this.auctionItems[index].newBid;
+
+        this.auctionItems[index].timeLeft += 15;
+        this.httpService.updateItem(this.auctionItems[index]).subscribe((success: boolean) => {
+          console.log(`Update for ${this.auctionItems[index]} was ${success}`);
+        });
+        this.client.send("/update-items", {}, JSON.stringify(this.auctionItems[index]));
+      }
+    } else {
+      console.log("Unable to send bid - Stomp Client undefined or null.");
+    }
+  }
+
+  endAuction(item: AuctionItem) {
+    if (this.client) {
+      this.httpService.updateItem(item).subscribe((success: boolean) => {
+        console.log(`Update for ${item} was ${success}`);
+      });
+      this.client.send("/update-items", {}, JSON.stringify(item));
     } else {
       console.log("Unable to send bid - Stomp Client undefined or null.");
     }

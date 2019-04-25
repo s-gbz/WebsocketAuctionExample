@@ -16,3 +16,8 @@ Zuständigkeiten Kommunikation ist
 - Warum tut man?
 
 [1]: [](https://stackoverflow.com/questions/2002120/citing-the-author-of-a-blockquote-using-markdown-syntax)
+
+- Websocket: Aktualisierung des neusten Preises bei Clients die neu hereinkommen
+- Passiert durch updaten der Items im Backend
+
+- Problem bei Clients: Unterbrechung des Countdown Timers bei Tabwechsel. Lösung durch Webworker, aber nicht hier und heute.

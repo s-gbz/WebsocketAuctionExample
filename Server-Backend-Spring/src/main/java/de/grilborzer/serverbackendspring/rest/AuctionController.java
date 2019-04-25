@@ -2,13 +2,11 @@ package de.grilborzer.serverbackendspring.rest;
 
 import de.grilborzer.serverbackendspring.persistence.AuctionItem;
 import de.grilborzer.serverbackendspring.persistence.AuctionRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class AuctionController {
 
@@ -16,6 +14,12 @@ public class AuctionController {
 
     public AuctionController(AuctionRepository auctionRepository) {
         this.auctionRepository = auctionRepository;
+    }
+
+    @PostMapping("/update-item")
+    public boolean updateAuctionItem(@RequestBody AuctionItem auctionItem) {
+        auctionRepository.save(auctionItem);
+        return true;
     }
 
     @GetMapping("/all-items")
