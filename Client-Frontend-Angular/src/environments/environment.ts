@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  serverUrl: "http://192.168.178.70:8080",
-  webSocketUrl: "ws://192.168.178.70:8080/socket-registry"
+  serverUrl: "http://10.212.13.98:8080",
+  webSocketUrl: "ws://10.212.13.98:8080/socket-registry"
 };
 
 /*

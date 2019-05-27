@@ -1,3 +1,23 @@
+# Client Server Kommunikation mit Websockets
+
+Kleines Rätsel: Welche Gemeinsamkeit teilen Chatanwendungen, Online Auktionshäuser und Newsticker? 
+
+Richtig! Ihre Kernfunktion ist die Bereitstellung der neusten, verfügbaren Informationen für eine Gruppe von Benutzern. 
+Betrachtet man klassische Schnittstellen von Client Server Architekturen, fällt jedoch schnell auf, 
+dass übliche REST Schnitstellen in dem Fall nicht zum Ziel führen. 
+Der Grund ist, dass meist nicht definiert ist wann neue Informationen zur Verfügung stehen.
+
+Naive Lösungsmöglichkeiten umfassen deshalb meist "Polling", sprich die kontinuierliche Prüfung auf neue Updates. 
+Im Wesen einer Client Server Anwendung, entspricht der Ansatz einer Welle von Serveranfragen die in festgelegten
+Intervallen vom Client versendet werden. Aus Gründen von Performanz, Latenz und limitierter Bandbreite, ist dies
+eine Strategie von der abzuraten ist.
+
+
+
+
+
+
+
 Zuständigkeiten Kommunikation ist 
 
 ## Der Client

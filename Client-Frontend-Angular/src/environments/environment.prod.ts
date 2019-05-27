@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   serverUrl: "",
-  webSocketUrl: "ws://192.168.178.70:8080/socket-registry"
+  webSocketUrl: "ws://10.212.13.98:8080/socket-registry"
 };

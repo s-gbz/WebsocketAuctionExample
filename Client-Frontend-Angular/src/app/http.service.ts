@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
 
-  private auctionChannelUrl = "update-items";
   private getAllAuctionItemsUrl = "/all-items";
   private updateAuctionItemsUrl = "/update-item";
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
