@@ -21,6 +21,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // Endpoint for client topic subscription
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
+        // One channel:
         registry.enableSimpleBroker("/update-items");
+
+        // Further channels:
+        // registry.enableSimpleBroker("/update-items", "/another-channel", "...");
     }
 }

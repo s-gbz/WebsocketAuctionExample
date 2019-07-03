@@ -2,6 +2,7 @@ package de.grilborzer.serverbackendspring.rest;
 
 import de.grilborzer.serverbackendspring.persistence.AuctionItem;
 import de.grilborzer.serverbackendspring.persistence.AuctionRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +18,9 @@ public class AuctionController {
     }
 
     @PostMapping("/update-item")
-    public boolean updateAuctionItem(@RequestBody AuctionItem auctionItem) {
+    public ResponseEntity updateAuctionItem(@RequestBody AuctionItem auctionItem) {
         auctionRepository.save(auctionItem);
-        return true;
+        return ResponseEntity.ok().build(); //TODO - CHECK
     }
 
     @GetMapping("/all-items")
