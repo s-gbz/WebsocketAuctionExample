@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class HttpService {
 
   private getAllAuctionItemsUrl = "/all-items";
-  private updateAuctionItemsUrl = "/update-item";
+  private updateAuctionItemsUrl = "/item-updates";
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
   constructor(private http: HttpClient) { }
@@ -19,11 +19,11 @@ export class HttpService {
     return this.http.post<boolean>(environment.serverUrl + this.updateAuctionItemsUrl, JSON.stringify(item), this.httpOptions);
   }
 
-  getWebsocket(): WebSocket {
+  getWebSocket(): WebSocket {
     return new WebSocket(environment.webSocketUrl);
   }
 
-  getInitialAuctionItems(): Observable<AuctionItem []> {
+  initializeAuctionItems(): Observable<AuctionItem []> {
     return this.http.get<AuctionItem []>(environment.serverUrl + this.getAllAuctionItemsUrl);
   }
 }
