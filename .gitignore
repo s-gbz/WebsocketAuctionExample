@@ -6,3 +6,11 @@ Server-Backend-Spring/\.idea/workspace\.xml
 Server-Backend-Spring/src/main/resources/static/
 
 blogpost-websockets\.md
+
+*.class
+
+Server-Backend-Spring/\.gradle/buildOutputCleanup/outputFiles\.bin
+
+*.lock
+
+*.bin
