@@ -20,7 +20,7 @@ public class AuctionController {
     @PostMapping("/update-item")
     public ResponseEntity updateAuctionItem(@RequestBody AuctionItem auctionItem) {
         auctionRepository.save(auctionItem);
-        return ResponseEntity.ok().build(); //TODO - CHECK
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/all-items")

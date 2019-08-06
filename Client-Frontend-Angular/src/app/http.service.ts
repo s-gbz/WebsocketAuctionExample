@@ -10,8 +10,8 @@ export class HttpService {
 
   private getAllAuctionItemsUrl = "/all-items";
   private updateAuctionItemsUrl = "/item-updates";
-  private serverUrl: "http://localhost:8080";
-  private webSocketUrl: "ws://localhost:8080/socket-registry";
+  private serverUrl = "http://localhost:8080";
+  private webSocketUrl = "ws://localhost:8080/socket-registry";
 
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
