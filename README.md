@@ -1,5 +1,5 @@
 # WebSocketAuctionExample
-Code example for the corresponding blogpost ["WebSockets made easy with STOMP.js and Spring Boot"](https://blog.adesso.de).
+Code example for the corresponding blogpost ["WebSockets made easy with STOMP.js and Spring Boot"](https://www.adesso.de/de/news/blog/websockets-leichtgemacht-mit-stomp-js-und-spring-boot.jsp).
 
 ## Start the server
 Open a terminal and:
